@@ -43,7 +43,7 @@ RUN build_deps="curl" && \
 
 
 #  /opt/BISQ/BISQ_postinstall && \
-#  dbus-uuidgen > /etc/machine-id && \
+  dbus-uuidgen > /etc/machine-id && \
 
 
   echo "**** cleanup ****" && \

@@ -1,11 +1,11 @@
 #!/usr/bin/with-contenv bash
 
 # make our folders
-mkdir -p /config/.config/calibre
-
+mkdir -p /config/.config/BISQ && \
+mkdir -p /config/.config/BISQ/webserver_data
 # set webserver port on first install
-[[ ! -f /config/.config/calibre/server-config.txt ]] && \
-    echo "port 8081" > /config/.config/calibre/server-config.txt
+[[ ! -f /config/.config/BISQ/webserver_data/server-config.txt ]] && \
+    echo "port 8081" > /config/.config/BISQ/webserver_data/server-config.txt
 
 sed -i 's|"password":"abc",|"password":"kjhbouygiuvhgvghv",|' /gclient/app.js
 sed -i "s#process.env.PASSWORD || 'abc';#process.env.PASSWORD || 'kjhbouygiuvhgvghv';#" /gclient/maketoken.js
@@ -38,4 +38,4 @@ fi
 # permissions
 chown -R abc:abc \
     /config \
-    /opt/calibre
+    /opt/BISQ
