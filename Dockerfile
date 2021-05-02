@@ -1,6 +1,5 @@
 FROM ghcr.io/linuxserver/baseimage-rdesktop-web:bionic
 
-# set version label
 ARG BUILD_DATE
 ARG VERSION
 ARG BISQ_RELEASE
@@ -14,15 +13,13 @@ ENV \
 
 RUN echo "**** install git-lfs ****" && \
     apt-get update && \
-    apt-get install -y --no-install-recommends curl jq ca-certificates && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends curl jq ca-certificates && \
     curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
-    apt-get install -y --no-install-recommends git-lfs && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends git-lfs && \
     git lfs install && \
     DEBIAN_FRONTEND=noninteractive apt-get purge -y --auto-remove ${build_deps} && \
     rm -r /var/lib/apt/lists/* && \
 
-#  echo "**** install other deps ****" && \
-#    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends jq && \
 
   echo "**** install BISQ ****" && \
   mkdir -p \
@@ -40,7 +37,6 @@ RUN echo "**** install git-lfs ****" && \
   ./gradlew build && \
 
 
-#  /opt/BISQ/BISQ_postinstall && \
   dbus-uuidgen > /etc/machine-id && \
 
 
@@ -51,5 +47,5 @@ RUN echo "**** install git-lfs ****" && \
     /var/lib/apt/lists/* \
     /var/tmp/*
 
-# add local files
+
 COPY root/ /
