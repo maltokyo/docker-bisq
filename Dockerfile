@@ -12,9 +12,8 @@ ENV \
   GUIAUTOSTART="true" \
   HOME="/config"
 
-  echo "**** install git-lfs ****" && \
-
-RUN build_deps="curl" && \
+RUN echo "**** install git-lfs ****" && \
+    build_deps="curl" && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ${build_deps} ca-certificates && \
     curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
