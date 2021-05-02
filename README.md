@@ -38,26 +38,27 @@ Here are some example snippets to help you get started creating a container.
 
 ### docker-compose ([recommended](https://docs.linuxserver.io/general/docker-compose))
 
-Compatible with docker-compose v2 schemas.
+Compatible with docker-compose v2 schemas - see sample file included, copy and make your own.
 
 ```yaml
 ---
 version: "2.1"
 services:
-  BISQ:
-    image: ghcr.io/linuxserver/BISQ
-    container_name: BISQ
+  docker_bisq:
+    #image: maltokyo/docker-bisq
+    build: .
+    container_name: docker_bisq
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/London
-      - PASSWORD= #optional
-      - CLI_ARGS= #optional
+      - PASSWORD=changeme #CHANGE THIS!!
+      - CLI_ARGS="--userDataDir=/config/.config/BISQ/user_data --appDataDir=/config/.config/BISQ/app_data" #optional
     volumes:
-      - /path/to/data:/config
+      - ./config:/config
     ports:
       - 8080:8080
-      - 8081:8081
+      #- 8081:8081
     restart: unless-stopped
 ```
 
@@ -202,17 +203,4 @@ Once registered you can define the dockerfile to use with `-f Dockerfile.aarch64
 
 ## Versions
 
-* **20.04.21:** - Fix the HOME folder.
-* **19.04.21:** - Add libnss3 back in. Make sure BISQ can access environment variables.
-* **18.04.21:** - Start BISQ on container start rather than gui connect.
-* **15.04.21:** - Rebase to rdesktop-web baseimage. Deprecate `GUAC_USER` and `GUAC_PASS` env vars. Existing users can set the new var `PASSWORD` for the user `abc`.
-* **25.09.20:** - Switch to python3, add various new dependencies for BISQ 5.0.
-* **10.05.19:** - Add new env var `CLI_ARGS` to pass start arguments to BISQ.
-* **18.03.19:** - Let BISQ access environment variables, add optional umask setting.
-* **23.10.19:** - Remove reccomended deps and zenity for character compatibility.
-* **18.10.19:** - Add python-xdg.
-* **08.10.19:** - Add fonts-wqy-microhei ttf-wqy-zenhei fcitx-rime dependency to resolve issue with Chinese encoding.
-* **04.10.19:** - Add libxkbcommon-x11-0 dependency to resolve issue with BISQ 4.
-* **08.08.19:** - Add zenity for international character support in dialog boxes.
-* **12.07.19:** - Download binary from BISQ website instead of github.
-* **29.04.19:** - Initial release.
+* **02.05.2021:** - Initial release. Forked from docker-calibre by linuxserver, and adapted to Bisq.
