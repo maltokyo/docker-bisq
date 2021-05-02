@@ -22,16 +22,18 @@ RUN echo "**** install git-lfs ****" && \
 
 
   echo "**** install BISQ ****" && \
+  
   mkdir -p \
     /opt/BISQ && \
-  if [ -z ${BISQ_RELEASE+x} ]; then \
-    BISQ_RELEASE=$(curl -sX GET "https://github.com/bisq-network/bisq/releases/latest" \
-    | jq -r .tag_name); \
-  fi && \
-  BISQ_VERSION="$(echo ${BISQ_RELEASE} | cut -c2-)" && \
+  #if [ -z ${BISQ_RELEASE+x} ]; then \
+  #  BISQ_RELEASE=$(curl -sX GET "https://github.com/bisq-network/bisq/releases/latest" \
+  #  | jq -r .tag_name); \
+  #fi && \
+  #BISQ_VERSION="$(echo ${BISQ_RELEASE} | cut -c2-)" && \
   
   cd /opt/BISQ && \
-  git clone --depth 1 --branch ${BISQ_VERSION} https://github.com/bisq-network/bisq && \
+  git clone --depth 1 --branch v1.6.2 https://github.com/bisq-network/bisq && \
+  #git clone --depth 1 --branch ${BISQ_VERSION} https://github.com/bisq-network/bisq && \
   cd bisq && \
   git lfs pull && \
   ./gradlew build && \
