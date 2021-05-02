@@ -9,7 +9,7 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/London
-      - PASSWORD="changeme" #optional
+      - PASSWORD=changeme #CHANGE THIS!!
       - CLI_ARGS="--userDataDir=/config/.config/BISQ/user_data --appDataDir=/config/.config/BISQ/app_data" #optional
     volumes:
       - ./config:/config
