@@ -32,7 +32,7 @@ RUN echo "**** install git-lfs ****" && \
   #BISQ_VERSION="$(echo ${BISQ_RELEASE} | cut -c2-)" && \
   
   cd /opt/BISQ && \
-  git clone --depth 1 --branch v1.6.2 https://github.com/bisq-network/bisq && \
+  git clone --depth 1 --branch v1.6.3 https://github.com/bisq-network/bisq && \
   #git clone --depth 1 --branch ${BISQ_VERSION} https://github.com/bisq-network/bisq && \
   cd bisq && \
   ./scripts/install_java.sh && \
