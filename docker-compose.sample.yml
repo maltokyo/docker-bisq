@@ -9,8 +9,9 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/London
-      #- USER=myusername # not working yet - user is abc 
+      #- USER=myusername # not working yet - user is "abc" by default
       - PASSWORD=changeme #CHANGE THIS!!
+      - S6_KILL_GRACETIME=10000 # This allows 10 seconds for Bisq to shutdown gracefully before the container will close.
       - CLI_ARGS="--userDataDir=/config/.config/BISQ/user_data --appDataDir=/config/.config/BISQ/app_data" #optional
     volumes:
       - ./config:/config
