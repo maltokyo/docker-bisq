@@ -1,7 +1,7 @@
 ---
 
 # jenkins variables
-project_name: docker-calibre
+project_name: docker-BISQ
 external_type: github_stable
 release_type: stable
 release_tag: latest
@@ -9,14 +9,14 @@ ls_branch: master
 repo_vars:
   - EXT_GIT_BRANCH = 'master'
   - EXT_USER = 'kovidgoyal'
-  - EXT_REPO = 'calibre'
-  - BUILD_VERSION_ARG = 'CALIBRE_RELEASE'
+  - EXT_REPO = 'BISQ'
+  - BUILD_VERSION_ARG = 'BISQ_RELEASE'
   - LS_USER = 'linuxserver'
-  - LS_REPO = 'docker-calibre'
-  - CONTAINER_NAME = 'calibre'
-  - DOCKERHUB_IMAGE = 'linuxserver/calibre'
-  - DEV_DOCKERHUB_IMAGE = 'lsiodev/calibre'
-  - PR_DOCKERHUB_IMAGE = 'lspipepr/calibre'
+  - LS_REPO = 'docker-BISQ'
+  - CONTAINER_NAME = 'BISQ'
+  - DOCKERHUB_IMAGE = 'linuxserver/BISQ'
+  - DEV_DOCKERHUB_IMAGE = 'lsiodev/BISQ'
+  - PR_DOCKERHUB_IMAGE = 'lspipepr/BISQ'
   - DIST_IMAGE = 'ubuntu'
   - MULTIARCH = 'false'
   - CI = 'true'
