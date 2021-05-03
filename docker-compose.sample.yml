@@ -9,6 +9,7 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/London
+      #- USER=myusername # not working yet - user is abc 
       - PASSWORD=changeme #CHANGE THIS!!
       - CLI_ARGS="--userDataDir=/config/.config/BISQ/user_data --appDataDir=/config/.config/BISQ/app_data" #optional
     volumes:
