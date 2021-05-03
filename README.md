@@ -12,10 +12,6 @@ This is the docker version of the decentralised Bitcoin exchange [Bisq](https://
 
 ## Supported Architectures
 
-We utilise the docker manifest for multi-platform awareness. More information is available from docker [here](https://github.com/docker/distribution/blob/master/docs/spec/manifest-v2-2.md#manifest-list) and our announcement [here](https://blog.linuxserver.io/2019/02/21/the-lsio-pipeline-project/).
-
-Simply pulling `ghcr.io/linuxserver/BISQ` should retrieve the correct image for your arch, but you can also pull specific arch images via tags.
-
 The architectures supported by this image are:
 
 | Architecture | Tag |
@@ -40,29 +36,8 @@ Here are some example snippets to help you get started creating a container.
 
 Compatible with docker-compose v2 schemas - see sample file included, copy and make your own.
 
-```yaml
----
-version: "2.1"
-services:
-  docker_bisq:
-    #image: maltokyo/docker-bisq
-    build: .
-    container_name: docker_bisq
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/London
-      - PASSWORD=changeme #CHANGE THIS!!
-      - CLI_ARGS="--userDataDir=/config/.config/BISQ/user_data --appDataDir=/config/.config/BISQ/app_data" #optional
-    volumes:
-      - ./config:/config
-    ports:
-      - 8080:8080
-      #- 8081:8081
-    restart: unless-stopped
-```
 
-### docker cli
+### docker cli (might be outdated, check the docker-compose.yml file for latest variables etc)
 
 ```bash
 docker run -d \
@@ -86,7 +61,6 @@ Container images are configured using parameters passed at runtime (such as thos
 | Parameter | Function |
 | :----: | --- |
 | `-p 8080` | BISQ desktop gui. |
-| `-p 8081` | BISQ webserver gui. |
 | `-e PUID=1000` | for UserID - see below for explanation |
 | `-e PGID=1000` | for GroupID - see below for explanation |
 | `-e TZ=Europe/London` | Specify a timezone to use EG Europe/London. |
@@ -123,84 +97,3 @@ In this instance `PUID=1000` and `PGID=1000`, to find yours use `id user` as bel
   $ id username
     uid=1000(dockeruser) gid=1000(dockergroup) groups=1000(dockergroup)
 ```
-
-## Docker Mods
-
-[![Docker Mods](https://img.shields.io/badge/dynamic/yaml?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&label=BISQ&query=%24.mods%5B%27BISQ%27%5D.mod_count&url=https%3A%2F%2Fraw.githubusercontent.com%2Flinuxserver%2Fdocker-mods%2Fmaster%2Fmod-list.yml)](https://mods.linuxserver.io/?mod=BISQ "view available mods for this container.") [![Docker Universal Mods](https://img.shields.io/badge/dynamic/yaml?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&label=universal&query=%24.mods%5B%27universal%27%5D.mod_count&url=https%3A%2F%2Fraw.githubusercontent.com%2Flinuxserver%2Fdocker-mods%2Fmaster%2Fmod-list.yml)](https://mods.linuxserver.io/?mod=universal "view available universal mods.")
-
-We publish various [Docker Mods](https://github.com/linuxserver/docker-mods) to enable additional functionality within the containers. The list of Mods available for this image (if any) as well as universal mods that can be applied to any one of our images can be accessed via the dynamic badges above.
-
-## Support Info
-
-* Shell access whilst the container is running: `docker exec -it BISQ /bin/bash`
-* To monitor the logs of the container in realtime: `docker logs -f BISQ`
-* container version number
-  * `docker inspect -f '{{ index .Config.Labels "build_version" }}' BISQ`
-* image version number
-  * `docker inspect -f '{{ index .Config.Labels "build_version" }}' ghcr.io/linuxserver/BISQ`
-
-## Updating Info
-
-Most of our images are static, versioned, and require an image update and container recreation to update the app inside. With some exceptions (ie. nextcloud, plex), we do not recommend or support updating apps inside the container. Please consult the [Application Setup](#application-setup) section above to see if it is recommended for the image.
-
-Below are the instructions for updating containers:
-
-### Via Docker Compose
-
-* Update all images: `docker-compose pull`
-  * or update a single image: `docker-compose pull BISQ`
-* Let compose update all containers as necessary: `docker-compose up -d`
-  * or update a single container: `docker-compose up -d BISQ`
-* You can also remove the old dangling images: `docker image prune`
-
-### Via Docker Run
-
-* Update the image: `docker pull ghcr.io/linuxserver/BISQ`
-* Stop the running container: `docker stop BISQ`
-* Delete the container: `docker rm BISQ`
-* Recreate a new container with the same docker run parameters as instructed above (if mapped correctly to a host folder, your `/config` folder and settings will be preserved)
-* You can also remove the old dangling images: `docker image prune`
-
-### Via Watchtower auto-updater (only use if you don't remember the original parameters)
-
-* Pull the latest image at its tag and replace it with the same env variables in one run:
-
-  ```bash
-  docker run --rm \
-  -v /var/run/docker.sock:/var/run/docker.sock \
-  containrrr/watchtower \
-  --run-once BISQ
-  ```
-
-* You can also remove the old dangling images: `docker image prune`
-
-**Note:** We do not endorse the use of Watchtower as a solution to automated updates of existing Docker containers. In fact we generally discourage automated updates. However, this is a useful tool for one-time manual updates of containers where you have forgotten the original parameters. In the long term, we highly recommend using [Docker Compose](https://docs.linuxserver.io/general/docker-compose).
-
-### Image Update Notifications - Diun (Docker Image Update Notifier)
-
-* We recommend [Diun](https://crazymax.dev/diun/) for update notifications. Other tools that automatically update containers unattended are not recommended or supported.
-
-## Building locally
-
-If you want to make local modifications to these images for development purposes or just to customize the logic:
-
-```bash
-git clone https://github.com/linuxserver/docker-BISQ.git
-cd docker-BISQ
-docker build \
-  --no-cache \
-  --pull \
-  -t ghcr.io/linuxserver/BISQ:latest .
-```
-
-The ARM variants can be built on x86_64 hardware using `multiarch/qemu-user-static`
-
-```bash
-docker run --rm --privileged multiarch/qemu-user-static:register --reset
-```
-
-Once registered you can define the dockerfile to use with `-f Dockerfile.aarch64`.
-
-## Versions
-
-* **02.05.2021:** - Initial release. Forked from docker-calibre by linuxserver, and adapted to Bisq.
