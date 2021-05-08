@@ -2,8 +2,8 @@
 version: "2.1"
 services:
   docker_bisq:
-    #image: maltokyo/docker-bisq
-    build: .
+    image: maltokyo/docker-bisq:1.6.4
+    # build: . #use this and comment out the above "image" line if you prefer to build yourself.
     container_name: docker_bisq
     environment:
       - PUID=1000
